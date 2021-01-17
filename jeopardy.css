@@ -5,3 +5,7 @@
   #8d2ab5
   #74119c
  */
+th,
+td {
+  border: 1px solid red;
+}

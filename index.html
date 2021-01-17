@@ -6,6 +6,8 @@
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Jeopardy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=Copse&display=swap"
         rel="stylesheet">
   <link rel="stylesheet" href="jeopardy.css">
@@ -16,10 +18,20 @@
             <h1>Jeopardy!</h1>
             <button id="button">Start!</button>
       </div>
-      <div class="container-bottom">
-            <table id="gameboard">
-                  
+      <div class="container-bottom" id="container-bottom" style="display: none;">
+            <table>
+                  <thead id="thead">
+                        <tr id="headline">
+
+                        </tr>
+                  </thead>
+                  <tbody id="gameboard">
+
+                  </tbody>
             </table>
+      </div>
+      <div id="spinner" style="display: none;">
+            <i class="fas fa-spinner fa-spin"></i>
       </div>
 </div>
 <script src="https://unpkg.com/jquery"></script>

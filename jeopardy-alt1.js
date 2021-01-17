@@ -72,19 +72,7 @@ async function fillTable() {
  * - if currently "answer", ignore click
  * */
 
-function handleClick(e) {
-    console.log(e.target.id);
-    let cat = +e.target.id.slice(2);
-    let clue = +e.target.id.slice(0, 1);
-    console.log(cat, clue);
-    if(categories[cat].clues[clue].showing === null){
-        e.target.innerHTML = categories[cat].clues[clue].question;
-        categories[cat].clues[clue].showing= 'question';
-    } else if (categories[cat].clues[clue].showing === 'question'){
-        e.target.innerHTML = categories[cat].clues[clue].answer;
-        categories[cat].clues[clue].showing= 'answer';
-    }
-    
+function handleClick(evt) {
 }
 
 /** Wipe the current Jeopardy board, show the loading spinner,
@@ -151,34 +139,22 @@ function writeTableHead(){
     // console.log('___________________________________________', masterarray[0]);
     categories.forEach(function(category){
         console.log('hallo');
-        $('#headline').append(`<th>${category.title}</th>`)
+        $('#gameboard').append(`<th>${category.title}</th>`);
     });
     
     // for (let category of categories){
         
-    //     $('#gameboard').append(`<th>${category.title}</th>`)
+    //     
     // }
 }
 
 
 function writeAllToHTML(){
     console.log('inside writeAllToHTML')
-    $('#headline').empty();
     $('#gameboard').empty();
     console.log($('#gameboard'));
     writeTableHead();
-    for (let i = 0; i < 5; i++){
-        const row = document.createElement('tr');
-        for (let j = 0; j < 6; j++){
-            const td = document.createElement('td');
-            td.innerHTML = `${i}-${j}`
-            td.id = `${i}-${j}`
-            row.append(td)
-        }
-        $('#gameboard').append(row)
-    }
 }
-
 
 
 function shuffleClues(arr){
@@ -204,7 +180,7 @@ async function getCluesFromOneCat(val){
         let shuffledClues = await shuffleClues(clues);
         // console.log('shuffledClues: ', shuffledClues[0]);
         const newClues = [];
-        let i =0;
+        let i = 0;
         
         while (newClues.length < 5){
             let shuff = shuffledClues[i][0];
@@ -219,19 +195,17 @@ async function getCluesFromOneCat(val){
         }
         val.clues= newClues;
         // console.log(val)
-        return val
+        return newClues
 }
 
 
 async function getClues(indexArr){          // indexArr von 6 [{title, categroyId}, ...] wird übergeben
     // console.log('Das ist der indexArr:', indexArr)
-    
-    for (let i=0; i<indexArr.length;i++){
-        let val = await getCluesFromOneCat(indexArr[i]);
-        categories.push(val);
+    for( let i = 0; i < indexArr.length; i++){       // val ist ein einzelnes Object {title, categoryId}
+    let val = await getCluesFromOneCat(indexArr[i])
+    categories.push(val);
     }
-    
-}
+};
 
 function selectCategories(resultArr){ //resultArray: Array von 100 Categories von der API
     const newSet = new Set();           // daraus werden 6 per Zufall ausgewählt
@@ -263,11 +237,9 @@ async function setupAndStart() {
     await getClues(indexArr);
     console.log({categories});
     writeAllToHTML();
-    
-    
-    
 }
 
+setupAndStart();
 /** On click of start / restart button, set up game. */
 
 // TODO
@@ -275,19 +247,3 @@ async function setupAndStart() {
 /** On page load, add event handler for clicking clues */
 
 // TODO
-
-
-$('#gameboard').on('click', function(e){
-    console.log(e.target);
-    handleClick(e)
-})
-
-$('#button').on('click', async function(e){
-    e.preventDefault();
-    $('#container-bottom').hide();
-    $('#button').hide();
-    $('#spinner').show();
-    await setupAndStart();
-    $('#spinner').hide();
-    $('#container-bottom').show();
-})
