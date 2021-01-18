@@ -8,4 +8,24 @@
 th,
 td {
   border: 1px solid red;
+  height: 13vh;
+  width: 15%;
+  padding-left: 1.5%;
+  padding-right: 1%;
+}
+
+.answer {
+  background: green;
+}
+
+.question {
+  background: grey;
+}
+
+.showing {
+  background: lightblue;
+}
+
+#restart {
+  margin-bottom: 1.5%;
 }
